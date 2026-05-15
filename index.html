@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Almendra | Cuidado y Medio Ambiente</title>
+    <style>
+        /* =========================
+           GENERAL
+        ========================== */
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        html{
+            scroll-behavior:smooth;
+        }
+        body{
+            background:#0f172a;
+            color:white;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+        .navbar{
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px 8%;
+            background:#111827;
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+        .logo{
+            font-size:28px;
+            font-weight:bold;
+            color:#4ade80;
+        }
+        .nav-links{
+            display:flex;
+            list-style:none;
+            gap:30px;
+            transition: all 0.5s ease;
+        }
+        .nav-links li a{
+            color:white;
+            text-decoration:none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #4ade80;
+            transition: width 0.3s ease;
+        }
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+        .menu-toggle{
+            display:none;
+            font-size:30px;
+            cursor:pointer;
+            transition: all 0.3s ease;
+        }
+        .menu-toggle.active::before {
+            content: "✕";
+        }
+        .menu-toggle::before {
+            content: "☰";
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+        .hero-content{
+            min-height:85vh;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            align-items:center;
+            gap:60px;
+            padding:60px 8%;
+        }
+        .hero-text h1{
+            font-size:60px;
+            color:#4ade80;
+            margin-bottom:20px;
+        }
+        .hero-text p{
+            font-size:20px;
+            color:#cbd5e1;
+            margin-bottom:30px;
+            line-height:1.6;
+        }
+        .btn{
+            display:inline-block;
+            padding:15px 30px;
+            background:#22c55e;
+            color:white;
+            text-decoration:none;
+            border-radius:40px;
+            transition:0.4s;
+            font-weight:bold;
+        }
+        .btn:hover{
+            background:#16a34a;
+            transform:scale(1.05);
+        }
+
+        /* =========================
+           CONTADOR DENTRO DEL HEADER
+        ========================== */
+        .contador-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 8%;
+            background: #111827;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+        .contador-texto {
+            text-align: left;
+        }
+        .contador-texto h2 {
+            color: #4ade80;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .contador-texto p {
+            color: #cbd5e1;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .contador-numero {
+            text-align: center;
+        }
+        .contador-numero h3 {
+            font-size: 60px;
+            color: #22c55e;
+            margin: 10px 0;
+        }
+        .contador-numero p {
+            color: #cbd5e1;
+            font-size: 16px;
+        }
+        .boton {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 40px;
+            background: #22c55e;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .boton:hover {
+            background: #16a34a;
+            transform: scale(1.05);
+        }
+
+        /* =========================
+           IMAGEN INTERACTIVA
+        ========================== */
+        .imagen-card{
+            position:relative;
+            overflow:hidden;
+            border-radius:25px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.5);
+            cursor:pointer;
+        }
+        .imagen-card img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition:0.6s;
+        }
+        .imagen-card:hover img{
+            transform:scale(1.1);
+        }
+        .overlay{
+            position:absolute;
+            bottom:-100%;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.7);
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            padding:20px;
+            transition:0.6s;
+        }
+        .imagen-card:hover .overlay{
+            bottom:0;
+        }
+        .overlay h3{
+            color:#4ade80;
+            margin-bottom:15px;
+            font-size:30px;
+        }
+        .overlay p{
+            color:white;
+            line-height:1.6;
+        }
+
+        /* =========================
+           SECCIONES
+        ========================== */
+        .section{
+            padding:80px 8%;
+            text-align:center;
+        }
+        .section h2{
+            font-size:40px;
+            margin-bottom:30px;
+            color:#4ade80;
+        }
+        .section p{
+            max-width:900px;
+            margin:auto;
+            line-height:1.8;
+            color:#cbd5e1;
+        }
+        .dark{
+            background:#111827;
+        }
+
+        /* =========================
+           CARDS
+        ========================== */
+        .cards{
+            margin-top:50px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px;
+        }
+        .card{
+            background:#1e293b;
+            padding:30px;
+            border-radius:20px;
+            transition:0.4s;
+        }
+        .card:hover{
+            transform:translateY(-10px);
+            box-shadow:0 10px 20px rgba(0,0,0,0.4);
+        }
+        .card h3{
+            margin-bottom:15px;
+            color:#4ade80;
+        }
+        .card p{
+            color:#cbd5e1;
+            line-height:1.6;
+        }
+
+        /* =========================
+           BENEFICIOS
+        ========================== */
+        .beneficios{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px;
+            margin-top:50px;
+        }
+        .beneficio{
+            background:#1e293b;
+            padding:30px;
+            border-radius:20px;
+            transition:0.4s;
+        }
+        .beneficio:hover{
+            transform:scale(1.05);
+        }
+        .beneficio h3{
+            margin-bottom:15px;
+            color:#4ade80;
+        }
+        .beneficio p{
+            color:#cbd5e1;
+            line-height:1.6;
+        }
+
+        /* =========================
+           GALERÍA
+        ========================== */
+        .galeria{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:25px;
+            margin-top:50px;
+        }
+        .foto{
+            overflow:hidden;
+            border-radius:20px;
+        }
+        .foto img{
+            width:100%;
+            height:300px;
+            object-fit:cover;
+            transition:0.5s;
+        }
+        .foto:hover img{
+            transform:scale(1.1);
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+        .footer{
+            padding:30px;
+            text-align:center;
+            background:#111827;
+            color:#cbd5e1;
+        }
+
+        /* =========================
+           RESPONSIVE TABLET
+        ========================== */
+        @media(max-width:992px){
+            .hero-content{
+                grid-template-columns:1fr;
+                text-align:center;
+            }
+            .hero-text h1{
+                font-size:45px;
+            }
+            .contador-header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .contador-texto {
+                text-align: center;
+            }
+        }
+
+        /* =========================
+           RESPONSIVE MOBILE
+        ========================== */
+        @media(max-width:768px){
+            .menu-toggle{
+                display:block;
+            }
+            .nav-links{
+                position:absolute;
+                top:80px;
+                right:0;
+                width:100%;
+                background:#111827;
+                flex-direction:column;
+                align-items:center;
+                padding:20px 0;
+                display:none;
+            }
+            .nav-links.active{
+                display:flex;
+            }
+            .hero-content{
+                padding:40px 5%;
+            }
+            .hero-text h1{
+                font-size:38px;
+            }
+            .hero-text p{
+                font-size:17px;
+            }
+            .section{
+                padding:60px 5%;
+            }
+        }
+
+        /* =========================
+           MOBILE PEQUEÑO
+        ========================== */
+        @media(max-width:480px){
+            .logo{
+                font-size:22px;
+            }
+            .hero-text h1{
+                font-size:30px;
+            }
+            .hero-text p{
+                font-size:15px;
+            }
+            .btn{
+                width:100%;
+                text-align:center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <header class="header">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                🌳 Almendra
+            </div>
+            <!-- MENÚ HAMBURGUESA -->
+            <div class="menu-toggle" id="menu-toggle"></div>
+            <!-- LINKS -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#informacion">Información</a></li>
+                <li><a href="#cuidados">Cuidados</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#impacto">Impacto</a></li>
+            </ul>
+        </nav>
+
+        <!-- HERO -->
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Árbol de Almendra</h1>
+                <p>
+                    El árbol de almendra (Prunus dulcis) es una especie originaria de Asia Central y el Medio Oriente,
+                    ampliamente cultivada por sus frutos comestibles y su valor ecológico.
+                    Aprende sobre su cuidado, mantenimiento y cómo contribuye a la protección del medio ambiente.
+                </p>
+                <a href="#cuidados" class="btn">
+                    Ver Cuidados y Más
+                </a>
+            </div>
+            <!-- IMAGEN INTERACTIVA -->
+            <div class="imagen-card">
+              <img src="imagenes/Tropical_Almond_Tree_Pacific_Almond_Tree_Indian_Almond_Tree.webp" alt="Árbol de almendra en floración">
+                <div class="overlay">
+                    <h3>🌿 Naturaleza Viva</h3>
+                    <p>
+                        Los árboles de almendra no solo producen frutos deliciosos y nutritivos,
+                        sino que también ayudan a purificar el aire, reducir la contaminación,
+                        prevenir la erosión del suelo y proteger la biodiversidad local.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTADOR DENTRO DEL HEADER -->
+        <div class="contador-header">
+            <div class="contador-texto">
+                <h2>🌍 Impacto Ambiental del Árbol de Almendra</h2>
+                <p>
+                    Un árbol de almendra adulto puede absorber una cantidad significativa de CO₂ al año,
+                    contribuyendo a la lucha contra el cambio climático y mejorando la calidad del aire que respiramos.
+                </p>
+            </div>
+            <div class="contador-numero">
+                <h3 id="contadorNumero">0</h3>
+                <p>Kilogramos de CO₂ absorbidos al año</p>
+                <button class="boton" onclick="iniciarContador()">Calcular Impacto</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =========================
+         INFORMACIÓN
+    ========================== -->
+    <section class="section" id="informacion">
+        <h2>📚 Información General</h2>
+        <p>
+            El árbol de almendra (Prunus dulcis) pertenece a la familia Rosaceae y es conocido por su resistencia y adaptabilidad.
+            Puede alcanzar una altura de 4 a 10 metros y vive entre 50 y 70 años. Sus flores, de color blanco o rosado,
+            son una de las primeras en aparecer a finales del invierno, lo que lo convierte en un símbolo de renovación y esperanza.
+            Las almendras son ricas en vitamina E, magnesio, fibra y grasas saludables, siendo un alimento muy valorado en la dieta humana.
+        </p>
+        <p>
+            Además de su valor nutricional, el árbol de almendra tiene una gran importancia ecológica:
+            sus raíces profundas ayudan a prevenir la erosión del suelo y su copa proporciona sombra y refugio para diversas especies de aves e insectos.
+        </p>
+    </section>
+
+    <!-- =========================
+         CUIDADOS
+    ========================== -->
+    <section class="section dark" id="cuidados">
+        <h2>🌱 Cuidados y Mantenimiento</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>💧 Riego</h3>
+                <p>
+                    Durante los primeros 2-3 años, el árbol de almendra necesita riego regular para establecer un sistema radicular fuerte.
+                    En climas secos, se recomienda regar cada 7-10 días, asegurando que el agua llegue a una profundidad de 30-40 cm.
+                    Evita el encharcamiento, ya que puede causar pudrición de raíces.
+                </p>
+            </div>
+            <div class="card">
+                <h3>☀️ Luz Solar</h3>
+                <p>
+                    El árbol de almendra requiere al menos 6-8 horas de sol directo al día para crecer fuerte y producir frutos de calidad.
+                    Es importante plantarlo en un lugar donde no haya sombra de otros árboles o estructuras.
+                </p>
+            </div>
+            <div class="card">
+                <h3>✂️ Poda</h3>
+                <p>
+                    La poda debe realizarse al final del invierno, antes de que el árbol comience a brotar.
+                    Elimina ramas secas, enfermas o que crezcan hacia el centro del árbol para mejorar la circulación del aire y la penetración de la luz.
+                </p>
+            </div>
+            <div class="card">
+                <h3>🌱 Fertilización</h3>
+                <p>
+                    Aplica abono orgánico o compost al inicio de la primavera y a mediados del verano.
+                    Los árboles de almendra responden bien a fertilizantes ricos en nitrógeno, fósforo y potasio.
+                    Evita el exceso de fertilizante, ya que puede dañar las raíces.
+                </p>
+            </div>
+            <div class="card">
+                <h3>🛡️ Plagas y Enfermedades</h3>
+                <p>
+                    Las plagas más comunes son el pulgón, la cochinilla y el taladro del hueso.
+                    Para prevenirlas, mantén el árbol sano con riego y fertilización adecuados.
+                    Usa insecticidas naturales como el aceite de neem si es necesario.
+                </p>
+            </div>
+            <div class="card">
+                <h3>🌡️ Clima Ideal</h3>
+                <p>
+                    El árbol de almendra se adapta mejor a climas mediterráneos, con inviernos fríos y veranos cálidos y secos.
+                    No tolera bien las heladas tardías durante la floración, ya que pueden dañar las flores y reducir la producción de frutos.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         BENEFICIOS
+    ========================== -->
+    <section class="section" id="beneficios">
+        <h2>🌿 Beneficios Ambientales y para la Salud</h2>
+        <div class="beneficios">
+            <div class="beneficio">
+                <h3>🌍 Reduce la Contaminación</h3>
+                <p>
+                    Un solo árbol de almendra puede absorber hasta 22 kg de CO₂ al año,
+                    ayudando a mitigar el efecto invernadero y mejorar la calidad del aire en su entorno.
+                </p>
+            </div>
+            <div class="beneficio">
+                <h3>🐦 Protege la Fauna</h3>
+                <p>
+                    Sus ramas y hojas ofrecen refugio y alimento a aves, abejas e insectos polinizadores,
+                    contribuyendo a la biodiversidad y al equilibrio de los ecosistemas locales.
+                </p>
+            </div>
+            <div class="beneficio">
+                <h3>🌡️ Reduce el Calor Urbano</h3>
+                <p>
+                    La sombra de un árbol de almendra puede reducir la temperatura ambiental en hasta 5°C,
+                    lo que ayuda a combatir el efecto de "isla de calor" en zonas urbanas.
+                </p>
+            </div>
+            <div class="beneficio">
+                <h3>💧 Conserva el Suelo</h3>
+                <p>
+                    Sus raíces profundas evitan la erosión del suelo, especialmente en zonas con pendiente,
+                    y mejoran la estructura del terreno al añadir materia orgánica.
+                </p>
+            </div>
+            <div class="beneficio">
+                <h3>🍃 Produce Oxígeno</h3>
+                <p>
+                    Un árbol de almendra adulto produce suficiente oxígeno para que 2-3 personas respiren durante un día,
+                    mejorando la calidad del aire en su entorno.
+                </p>
+            </div>
+            <div class="beneficio">
+                <h3>🥜 Alimento Nutritivo</h3>
+                <p>
+                    Las almendras son una fuente excelente de proteínas, fibra, vitamina E y grasas saludables,
+                    beneficiosas para la salud cardiovascular, la piel y el sistema inmunológico.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         GALERÍA
+    ========================== -->
+    <section class="section dark" id="galeria">
+        <h2>📸 Galería de Imágenes</h2>
+        <p>Explora la belleza del árbol de almendra en diferentes etapas de su crecimiento y floración.</p>
+        <div class="galeria">
+            <div class="foto">
+                <img src="imagenes/c116292db1909b7bf204a62664c65d04557450d8.webp" alt="Árbol de almendra en flor">
+            </div>
+            <div class="foto">
+                <img src="imagenes/WhatsApp Image 2026-05-15 at 5.04.57 PM.jpeg" alt="Almendras en el árbol">
+            </div>
+            <div class="foto">
+                <img src="imagenes/0_HJcRfA-pPSP52_7t.jpg" alt="Paisaje con árboles de almendra">
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         IMPACTO
+    ========================== -->
+    <section class="section" id="impacto">
+        <h2>🌎 Impacto en el Medio Ambiente</h2>
+        <p>
+            Los árboles de almendra no solo son valiosos por su producción agrícola, sino también por su contribución al equilibrio ecológico.
+            Ayudan a conservar el suelo, generan espacios verdes que mejoran la calidad de vida y son una fuente importante de alimento para la fauna local.
+        </p>
+        <p>
+            En El Salvador, la siembra de árboles de almendra puede ser una estrategia efectiva para la reforestación y la adaptación al cambio climático,
+            ya que son resistentes a la sequía y pueden crecer en suelos pobres.
+        </p>
+    </section>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer class="footer">
+        <p>
+            © <span id="year"></span> Proyecto Educativo - Árbol de Almendra | Desarrollado por Error 404: Sin Matemáticas. Todos los derechos reservados.
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Año automático en footer
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        // Contador
+        function iniciarContador() {
+            let numero = 0;
+            let elemento = document.getElementById("contadorNumero");
+            let intervalo = setInterval(() => {
+                numero++;
+                elemento.textContent = numero;
+                if(numero >= 22) {
+                    clearInterval(intervalo);
+                }
+            }, 80);
+        }
+
+        // Menú hamburguesa con interacción
+        const toggle = document.getElementById("menu-toggle");
+        const navLinks = document.getElementById("nav-links");
+        toggle.addEventListener("click", () => {
+            toggle.classList.toggle("active");
+            navLinks.classList.toggle("active");
+        });
+
+        // Cierra el menú al hacer clic en un enlace (para móvil)
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+                toggle.classList.remove("active");
+            });
+        });
+    </script>
+</body>
+</html>
